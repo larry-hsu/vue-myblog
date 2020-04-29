@@ -74,7 +74,7 @@ export default {
   & .title {
     text-align:center;
     font-size:1.4rem;
-    font-weight: bold;
+    font-family: Tahoma, Geneva, sans-serif;
     & span {
       cursor: pointer;
       border-bottom:2px solid black;
@@ -120,6 +120,9 @@ export default {
     text-align:left;
     margin-bottom:20px;
     font-size:1rem;
+    font-family: Verdana, Geneva, sans-serif;
+    font-size:16px;
+    line-height:2;
   }
 
   & .readmore {

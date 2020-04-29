@@ -98,9 +98,9 @@ div {
   align-items: center;
   justify-content: space-around;
   background-color:black;
+  font-family: Impact, Charcoal, sans-serif;
   height: 120px;
   color:white;
-  font-weight: bold;
   @boxShadow();
 
   & h2{
@@ -145,7 +145,7 @@ div {
   padding-bottom:20px;
   overflow: hidden;
   margin-bottom:10px;
-  font-weight: bold;
+  font-family: 'Arial Black', Gadget, sans-serif;
   @boxShadow();
   & p {
     position: relative;
@@ -185,7 +185,7 @@ div.postNums{
   max-width:200px;
   margin:0 auto;
   opacity: 0.8;
-  @CourierNewFont();
+  font-family: 'Arial Black', Gadget, sans-serif;
   font-weight: bold;
 }
 
@@ -210,6 +210,7 @@ div.postNums{
 
 .summaryFirst {
   .summary(relative);
+  font-family: 'Arial Black', Gadget, sans-serif;
   opacity:1;
   @media screen and (max-width: 900px) {
     display:none;

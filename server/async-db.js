@@ -3,7 +3,7 @@ const mysql = require('mysql');
 const mysql_user = {
     host:'localhost',
     user:'root',
-    password:'你的数据库密码',
+    password:'Wgijvou_1853',
     database:'websites'
 };
 

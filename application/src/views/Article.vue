@@ -10,9 +10,12 @@
         只在可信内容上使用 v-html，永不用在用户提交的内容上。
       -->
       <div class='wait-ctx' v-if="content===''">
-        <div class='loading'>
-          <div class='wait-animation'>
-          </div>
+        <div class="spinner">
+          <div class="rect1"></div>
+          <div class="rect2"></div>
+          <div class="rect3"></div>
+          <div class="rect4"></div>
+          <div class="rect5"></div>
         </div>
       </div>
       <article v-else class='ctx' v-html='content'></article>
@@ -96,14 +99,16 @@ export default {
 </script>
 
 <style lang='less'>
-@keyframes waitAnimation {
-  0% {
-    transform:translateY(0px);
-  }
-  100% {
-    transform:translateY(80px);
+@keyframes stretchdelay {
+  0%, 40%, 100% {
+    transform: scaleY(0.4);
+    -webkit-transform: scaleY(0.4);
+  }  20% {
+    transform: scaleY(1.0);
+    -webkit-transform: scaleY(1.0);
   }
 }
+
 @boxShadow:{
   box-shadow:0 0 2px #000;
 }
@@ -121,36 +126,48 @@ export default {
 
   & p code{
     word-break: break-all;
+    font-family: Georgia, serif;
   }
 
   & .wait-ctx {
     width:73%;
     height:500px;
     float: right;
+    @media screen and (max-width: 900px) {
+      width:100%;
+    }
 
-    & .loading {
-      position: relative;
-      width:20px;
-      height:100px;
-      border-bottom: 2px solid black;
-      left:50%;
-      top:50%;
-      transform: translate(-50%, -50%);
+    & .spinner {
+      margin: 100px auto;
+      min-width: 50px;
+      height: 60px;
+      text-align: center;
+      font-size: 10px;
 
-      &:after {
-        content:'loading...';
-        position:absolute;
-        bottom:-30px;
-        left:-14px;
-        font-size:16px;
+      &>div {
+        background-color: black;
+        @boxShadow();
+        height: 100%;
+        width: 6px;
+        display: inline-block;
+        margin:0 4px;
+        animation: stretchdelay 1.2s infinite ease-in-out;
       }
 
-      & .wait-animation {
-        width:20px;
-        height:20px;
-        border-radius: 10px;
-        background: black;
-        animation: waitAnimation cubic-bezier(0.5,0.01,0.9,1) 0.4s infinite alternate;
+      & .rect2 {
+        animation-delay: -1.1s;
+      }
+
+      & .rect3 {
+        animation-delay: -1.0s;
+      }
+
+      & .rect4 {
+        animation-delay: -0.9s;
+      }
+
+      & .rect5 {
+        animation-delay: -0.8s;
       }
     }
   }
@@ -177,7 +194,7 @@ export default {
     box-sizing: border-box;
     padding:50px;
     text-align: left;
-    @CourierNewFont();
+    font-family: Georgia, serif;
     font-size: 16px;
     line-height: 32px;
     outline: none;
@@ -197,7 +214,8 @@ export default {
 
     & blockquote {
       border-left:4px solid grey;
-      margin:10px 0;
+      margin:12px 0;
+      font-size:15px;
       padding-left:10px;
       color:grey;
       & p {
