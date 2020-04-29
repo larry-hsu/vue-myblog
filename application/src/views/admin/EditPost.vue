@@ -13,6 +13,7 @@
         placeholder='请输入标题(最多50个字)'
         @focus="handleFocus"
         v-model='oldTitle'
+        maxlength='50'
       >
       <div class='uploadMdFile'>
         <span @click='handleUploadMdFile'>上传修改后的md文件</span>

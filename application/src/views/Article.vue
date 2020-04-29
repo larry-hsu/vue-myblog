@@ -117,6 +117,11 @@ export default {
   font-family: 'Courier New', Courier, monospace;
 }
 
+.hljs {
+  margin: 20px 0;
+  border-radius: 4px;
+}
+
 .content {
   width: 77%;
   margin: 0 auto;

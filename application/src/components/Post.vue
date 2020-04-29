@@ -74,10 +74,14 @@ export default {
   & .title {
     text-align:center;
     font-size:1.4rem;
+    @media screen and (max-width: 900px) {
+      font-size: 18px;
+    }
     font-family: Tahoma, Geneva, sans-serif;
     & span {
       cursor: pointer;
       border-bottom:2px solid black;
+      word-break: break-all;
     }
   }
 
@@ -89,6 +93,9 @@ export default {
     margin:10px;
     margin-bottom: 20px;
     font-family: 'Courier New', Courier, monospace;
+    @media screen and (max-width: 900px) {
+      font-size: 16px;
+    }
     &::before{
         content:'';
         position: absolute;
@@ -108,6 +115,9 @@ export default {
     font-size:1rem;
     margin-bottom:20px;
     font-family: 'Tahoma';
+    @media screen and (max-width: 900px) {
+      font-size: 14px;
+    }
     &::after{
       content:'';
       display: block;
@@ -123,6 +133,9 @@ export default {
     font-family: Verdana, Geneva, sans-serif;
     font-size:16px;
     line-height:2;
+    @media screen and (max-width: 900px) {
+      font-size: 14px;
+    }
   }
 
   & .readmore {

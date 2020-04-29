@@ -174,11 +174,12 @@ div {
 
 /* section > aside > summary */
 div.my {
-  height:30px;
+  min-height:30px;
   line-height: 30px;
   margin-bottom:15px;
   font-weight:bold;
-  font-size:1.3rem;
+  font-size:18px;
+  word-break: break-all;
 }
 
 div.postNums{
@@ -186,7 +187,7 @@ div.postNums{
   margin:0 auto;
   opacity: 0.8;
   font-family: 'Arial Black', Gadget, sans-serif;
-  font-weight: bold;
+  font-size:16px;
 }
 
 .summary(@position) {
@@ -200,7 +201,7 @@ div.postNums{
   padding:10px;
   background-color:white;
   margin-top:10px;
-  height:150px;
+  min-height:150px;
   animation-delay:0.6s;
   color:black;
   font-size:1.2rem;
