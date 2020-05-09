@@ -15,6 +15,15 @@
         v-model='title'
         maxlength="50"
       >
+      <input
+        class='author'
+        type='text'
+        placeholder='作者'
+        @focus="handleFocus"
+        v-model='author'
+        v-if='admin===3'
+        maxlength="30"
+      >
       <div class='uploadMdFile'>
         <span @click='handleUploadMdFile'>上传md文件</span>
         文件名：<span> {{ filename }} </span>
@@ -49,7 +58,9 @@ export default {
       filename: '还未选择文件',
       mdContent: '',
       title: '',
-      userId: ''
+      userId: '',
+      author: '',
+      admin: ''
     }
   },
   methods: {
@@ -58,6 +69,10 @@ export default {
       // 后面的操作都是基于获取到的用户的权限
       var res = await axios.get('/api/user/info')
       this.userId = res.id
+      this.admin = res.admin
+      var postData = { id: this.userId }
+      var nickname = await myAjax.post('/api/user/nickname', postData)
+      this.author = nickname
     },
     handleUploadMdFile: function () {
       this.$refs.uploadMdFile.click()
@@ -85,13 +100,16 @@ export default {
     handleSave: async function () {
       if (!this.title) {
         alert('you need to write somethings')
+      } else if (this.admin === 3 && !this.author) {
+        alert('need author!')
       } else if (!this.mdContent) {
         alert('you need to upload a markdown file')
       } else {
         var postData = {
           id: this.userId,
           title: this.title,
-          content: this.mdContent
+          content: this.mdContent,
+          author: this.author
         }
 
         var res = await myAjax.post('/api/article/savepost', postData)
@@ -193,6 +211,7 @@ section {
 
     &.author{
       .inputOfSth();
+      color:grey;
     }
   }
 }

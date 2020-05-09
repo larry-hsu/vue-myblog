@@ -117,11 +117,7 @@ npm run build
    }
 
    location /api {
-       proxy_pass  http://127.0.0.1:3000; # 从3000端口拿数据
-   }
-
-   loaction /pages {
-       proxy_pass  http://127.0.0.1:3000; # 同样
+       proxy_pass  http://127.0.0.1; # 从3000端口拿数据
    }
    ```
 

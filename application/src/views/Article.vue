@@ -36,7 +36,7 @@ import BackToTop from '@/components/BackToTop.vue'
 import { myAjax } from '../../utils/syncajax'
 import marked from 'marked'
 import hljs from 'highlight.js'
-import 'highlight.js/styles/atelier-cave-dark.css'
+import 'highlight.js/styles/github.css'
 
 const highlightCode = () => {
   const preEl = document.querySelectorAll('pre')
@@ -117,9 +117,19 @@ export default {
   font-family: 'Courier New', Courier, monospace;
 }
 
+a {
+  word-break: break-all;
+  @CourierNewFont();
+  text-decoration: none;
+}
+
 .hljs {
-  margin: 20px 0;
+  margin: 10px 0;
   border-radius: 4px;
+  background: #F0F0F0;
+  & code.language-javascript {
+    font-size:15px;
+  }
 }
 
 .content {
@@ -129,9 +139,13 @@ export default {
     width:100%;
   }
 
-  & p code{
+  & p>code{
     word-break: break-all;
     font-family: Georgia, serif;
+    background: #F0F0F0;
+    padding: 0 6px;
+    margin: 0 4px;
+    border-radius: 4px;
   }
 
   & .wait-ctx {
@@ -209,8 +223,14 @@ export default {
     }
 
     & p {
-      margin:10px 0;
+      margin:16px 0;
       line-height: 2;
+
+      & img {
+        width:100%;
+        outline-offset: 2px;
+        outline: 1px solid grey;
+      }
     }
 
     & ol, ul {
@@ -225,7 +245,13 @@ export default {
       color:grey;
       & p {
         margin: 0;
-        line-height: 1.5;
+        line-height: 1.6;
+        & code {
+          word-break: break-all;
+          box-sizing: border-box;
+          font-family: Georgia, serif;
+          background: transparent;
+        }
       }
     }
 
@@ -234,7 +260,7 @@ export default {
     }
 
     & h2 {
-      margin: 20px 0;
+      margin: 30px 0;
     }
 
     & h3 {

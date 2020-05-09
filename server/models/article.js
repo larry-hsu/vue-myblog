@@ -60,9 +60,9 @@ class Article {
         return rows;
     }
 
-    async updateTitle () {
-        let sql = `UPDATE articles SET articleName = ? WHERE id= ?`;
-        let data = [this.title, this.id];
+    async updateTitleAndAuthor () {
+        let sql = `UPDATE articles SET articleName = ?, author = ? WHERE id= ?`;
+        let data = [this.title, this.author, this.id];
         let rows = await query(sql, data);
         return rows;
     }

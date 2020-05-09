@@ -6,7 +6,7 @@
         <Aside v-bind='transmit'></Aside>
       </aside>
       <article>
-        <div class='wait-ctx' v-if="posts.length === 0">
+        <div class='wait-post' v-if="posts.length === 0">
           <div class="spinner">
             <div class="rect1"></div>
             <div class="rect2"></div>
@@ -71,7 +71,7 @@ export default {
   methods: {
     async getInfo () {
       var res = await myAjax.get('/api/artCnt')
-      var postUrl = `/pages/${this.currPage}`
+      var postUrl = `/api/pages/${this.currPage}`
       var posts = await myAjax.get(postUrl)
       this.pageArr = makePage(this.currPage, res)
       var totalNum = await myAjax.get('/api/total')
@@ -133,45 +133,48 @@ export default {
       width:100%;
     }
   }
-  & .spinner {
-    margin: 100px auto;
-    min-width: 50px;
-    height: 60px;
-    text-align: center;
-    font-size: 10px;
-
-    &>div {
-      background-color: black;
-      @boxShadow();
-      height: 100%;
-      width: 6px;
-      display: inline-block;
-      margin:0 4px;
-      animation: stretchdelay 1.2s infinite ease-in-out;
-    }
-
-    & .rect2 {
-      animation-delay: -1.1s;
-    }
-
-    & .rect3 {
-      animation-delay: -1.0s;
-    }
-
-    & .rect4 {
-      animation-delay: -0.9s;
-    }
-
-    & .rect5 {
-      animation-delay: -0.8s;
-    }
-  }
 
   & article {
     width:73%;
     float: right;
     @media screen and (max-width: 900px) {
       width:100%;
+    }
+
+    & .wait-post {
+      & .spinner {
+        margin: 100px auto;
+        min-width: 50px;
+        height: 60px;
+        text-align: center;
+        font-size: 10px;
+
+        &>div {
+          background-color: black;
+          @boxShadow();
+          height: 100%;
+          width: 6px;
+          display: inline-block;
+          margin:0 4px;
+          animation: stretchdelay 1.2s infinite ease-in-out;
+        }
+
+        & .rect2 {
+          animation-delay: -1.1s;
+        }
+
+        & .rect3 {
+          animation-delay: -1.0s;
+        }
+
+        & .rect4 {
+          animation-delay: -0.9s;
+        }
+
+        & .rect5 {
+          animation-delay: -0.8s;
+        }
+      }
     }
   }
 }

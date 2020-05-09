@@ -18,8 +18,8 @@ export default {
   computed: {
     content: function () {
       var ctx = this.post.content.substr(0, 260)
-      ctx = ctx.replace(/(<\/?[^>]+>)|&nbsp;/g, '')
-      ctx = ctx.replace(/(```javascript|```|#+)/g, '')
+      ctx = ctx.replace(/(<[^>]+>)|&nbsp;/g, '')
+      ctx = ctx.replace(/(```[a-zA-Z]+|```|#+)/g, '')
       ctx = ctx.replace(/<|>/g, '')
       return ctx
     }

@@ -41,15 +41,17 @@ export default {
       // 后面的操作都是基于获取到的用户的权限
       var res = await axios.get('/api/user/info')
       this.user = res
+      var postData = { id: this.user.id }
+      var nickname = await myAjax.post('/api/user/nickname', postData)
       this.getLisInfo()
-      this.getPosts()
+      this.getPosts(nickname)
     },
     getLisInfo: function () {
       if (this.user.admin === 3) {
         this.lisInfo.splice(2, 0, ['/users/all', '用户'])
       }
     },
-    getPosts: async function () {
+    getPosts: async function (nickname) {
       if (this.user.admin === 3) {
         // 管理员获取所有的文章
         // 也可以使用axios获取
@@ -58,6 +60,10 @@ export default {
         this.posts = res
       } else {
         // 普通用户获取自己的文章
+        var postData = { author: nickname }
+        var ress = await myAjax.post('/api/myposts', postData)
+        ress = JSON.parse(ress)
+        this.posts = ress
       }
     }
   },

@@ -16,6 +16,7 @@
         Archives
       </p>
     </div>
+
     <div class='summaryFirst'>
       <div class='my'> {{ perch1 }} </div>
       <div class='postNums'>
@@ -38,12 +39,33 @@ export default {
       default: '0'
     }
   },
+  computed: {
+    nav: function () {
+      return document.getElementsByClassName('nav')[0]
+    },
+    summary: function () {
+      return document.getElementsByClassName('summaryFirst')[0]
+    },
+    width: function () {
+      return document.defaultView.getComputedStyle(this.nav).width
+    }
+  },
   methods: {
     backToHome () {
       this.$router.push('/')
     },
     toArchives () {
       this.$router.push('/archives')
+    },
+    handleScroll () {
+      var bottom = this.nav.getBoundingClientRect().bottom
+
+      if (bottom < 0) {
+        this.summary.className = 'fix'
+        this.summary.style.width = this.width
+      } else {
+        this.summary.className = 'summaryFirst'
+      }
     }
   },
   data () {
@@ -54,6 +76,7 @@ export default {
   mounted () {
     // 为了方便，暂时只取最后一个/后面的内容，后期可以考虑写一个模块用来解析路由信息
     this.currPath = this.$route.path // location.split('/').slice(-1).toString()
+    window.addEventListener('scroll', this.handleScroll, false)
   }
 }
 </script>
@@ -230,6 +253,14 @@ div.postNums{
 .fix{
   .summary(fixed);
   top:0px;
+  font-family: 'Arial Black', Gadget, sans-serif;
+  opacity:1;
+  @media screen and (max-width: 900px) {
+    display:none;
+  }
+  & div {
+    margin: 10px 0;
+  }
 }
 
 </style>

@@ -170,6 +170,7 @@ export default {
         font-size: 18px;
         padding-left:20px;
         font-weight: bold;
+        font-family: Georgia, serif;
         &::before {
           position: absolute;
           left:-18px;
@@ -189,6 +190,7 @@ export default {
         font-weight: bold;
         opacity: 0;
         animation: leftToRight 0.3s forwards;
+        font-family: Impact, Charcoal, sans-serif;
         &::before{
           position: absolute;
           left:-15px;
@@ -211,6 +213,7 @@ export default {
         border-bottom:1px dashed rgba(0,0,0,0.3);
         transition: border-bottom 0.3s;
         animation: showUp 0.3s forwards;
+        font-family: Georgia, serif;
         cursor: pointer;
         &:hover{
           border-bottom:1px dashed rgba(0,0,0,1);

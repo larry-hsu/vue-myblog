@@ -11,6 +11,31 @@ const crypto = require('crypto');
 
 router.prefix('/api');
 
+router.get('/pages/:pages', async (ctx, next) => {
+  let articles = new Article();
+  const pageNum = 5;
+
+  let page = ctx.params.pages;
+
+  let result = await articles.getAll();
+
+  let len = result.length;
+  for (let i = 0; i < len; i++) {
+    tmp = result[i].postTime;
+    result[i].postTime = Time.getFormatTime(tmp);
+    result[i].content = result[i].content.slice(0, 300);
+  }
+
+  if (page * pageNum <= len) {
+    // slice包含开头不包含结尾
+    result = result.slice(pageNum * (page - 1), pageNum * page);
+  } else {
+    result = result.slice(pageNum * (page - 1));
+  }
+
+  ctx.body = JSON.stringify(result);
+});
+
 // 获取li个数数供给ajax调用
 router.get('/artCnt', async (ctx, next) => {
   let articles = new Article();
@@ -140,6 +165,21 @@ router.post('/user/signature', async (ctx, next) => {
 router.get('/allposts', async (ctx, next) => {
   var post = new Article();
   var res = await post.getAll();
+  for (let i=0; i<res.length; i++) {
+    // 减小传输体积，因为用不到Content所以置空
+    res[i].content = ''; 
+  }
+  ctx.body = JSON.stringify(res);
+});
+
+router.post('/myposts', async (ctx, next) => {
+  var post = new Article();
+  post.author = ctx.request.body.author;
+  var res = await post.getArticleByAuthor();
+  for (let i=0; i<res.length; i++) {
+    // 减小传输体积，因为用不到Content所以置空
+    res[i].content = ''; 
+  }
   ctx.body = JSON.stringify(res);
 });
 
@@ -213,17 +253,10 @@ router.post('/user/editdata', async (ctx, next) => {
 router.post('/article/savepost', async (ctx, next) => {
   var postData = ctx.request.body;
 
-  var user = new User();
-  user.id = postData.id;
-  var rows = await user.getById();
-  var author = rows[0].nickname;
-
   var art = new Article();
-  art.author = author;
+  art.author = postData.author;
   art.title = postData.title;
   art.content = postData.content;
-  art.abstract = '';
-  art.imgSrc = '';
 
   try {
     await art.save();
@@ -243,8 +276,7 @@ router.post('/article/updatepost', async (ctx, next) => {
   art.id = postData.id;
   art.title = postData.title;
   art.content = postData.content;
-  art.abstract = '';
-  art.imgSrc = '';
+  art.author = postData.author;
 
   // 如果更新了内容
   if (postData.content) {
@@ -255,11 +287,11 @@ router.post('/article/updatepost', async (ctx, next) => {
     }
   }
 
-  // 标题每次更新下吧
+  // 标题和作者就每次更新下吧
   try {
-    await art.updateTitle ();
+    await art.updateTitleAndAuthor ();
   } catch (err) {
-    errors.push('update Title failed');
+    errors.push('update Title or author failed');
   }
 
   if (errors.length) {

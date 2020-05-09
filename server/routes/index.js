@@ -8,7 +8,7 @@ const api = require('./api')
 // const sign = require('./sign')
 // const archives = require('./archives')
 // const article = require('./article');
-const pages = require('./pages');
+// const pages = require('./pages');
 
 
 
@@ -39,6 +39,6 @@ router.use(api.routes(), api.allowedMethods())
 // router.use(sign.routes(), sign.allowedMethods())
 // router.use(archives.routes(), archives.allowedMethods())
 // router.use(article.routes(), article.allowedMethods())
-router.use(pages.routes(), pages.allowedMethods())
+// router.use(pages.routes(), pages.allowedMethods())
 
 module.exports = router

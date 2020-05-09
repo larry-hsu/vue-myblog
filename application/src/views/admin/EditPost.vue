@@ -15,6 +15,15 @@
         v-model='oldTitle'
         maxlength='50'
       >
+      <input
+        class='author'
+        type='text'
+        placeholder='作者'
+        @focus="handleFocus"
+        v-model='author'
+        v-if='admin===3'
+        maxlength="30"
+      >
       <div class='uploadMdFile'>
         <span @click='handleUploadMdFile'>上传修改后的md文件</span>
         文件名：<span> {{ oldFilename }} </span>
@@ -49,14 +58,17 @@ export default {
       oldFilename: '还未选择文件',
       oldMdContent: '',
       oldTitle: '',
-      newMdContent: ''
+      newMdContent: '',
+      admin: '',
+      author: ''
     }
   },
   methods: {
     getUserInfo: async function () {
       // 自己封装的axios会将token添加到http头信息中
       // 后面的操作都是基于获取到的用户的权限
-      await axios.get('/api/user/info')
+      var res = await axios.get('/api/user/info')
+      this.admin = res.admin
       this.getPostInfo()
     },
     getPostInfo: async function () {
@@ -68,6 +80,7 @@ export default {
       res = JSON.parse(res)
       this.oldTitle = res.articleName
       this.oldFilename = this.oldTitle + '.md'
+      this.author = res.author
     },
     handleUploadMdFile: function () {
       this.$refs.uploadMdFile.click()
@@ -98,18 +111,21 @@ export default {
     handleSave: async function () {
       if (!this.oldTitle) {
         alert('you need to write something')
-      }
+      } else if (this.admin === 3 && !this.author) {
+        alert('need author')
+      } else {
+        var postData = {
+          id: this.$route.params.postId,
+          title: this.oldTitle,
+          content: this.newMdContent,
+          author: this.author
+        }
 
-      var postData = {
-        id: this.$route.params.postId,
-        title: this.oldTitle,
-        content: this.newMdContent
-      }
-
-      var res = await myAjax.post('/api/article/updatePost', postData)
-      alert(res)
-      if (res === 'success') {
-        this.$router.push('/users/MyPosts')
+        var res = await myAjax.post('/api/article/updatePost', postData)
+        alert(res)
+        if (res === 'success') {
+          this.$router.push('/users/MyPosts')
+        }
       }
     }
   },
@@ -206,6 +222,7 @@ section {
 
     &.author{
       .inputOfSth();
+      color: grey;
     }
   }
 }
