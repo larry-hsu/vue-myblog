@@ -30,6 +30,12 @@ class Article {
         return rows;
     }
 
+    async getDateAndTitle () {
+        let sql = `SELECT id, articleName, postTime FROM articles Order by articles.postTIme desc`;
+        let rows = await query(sql);
+        return rows;
+    }
+
     async getAll() {
         let sql = `SELECT * FROM articles Order by articles.postTime desc`;
         let rows = await query(sql);

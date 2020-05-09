@@ -9,14 +9,8 @@
         在网站上动态渲染任意 HTML 是非常危险的，因为容易导致 XSS 攻击。
         只在可信内容上使用 v-html，永不用在用户提交的内容上。
       -->
-      <div class='wait-ctx' v-if="content===''">
-        <div class="spinner">
-          <div class="rect1"></div>
-          <div class="rect2"></div>
-          <div class="rect3"></div>
-          <div class="rect4"></div>
-          <div class="rect5"></div>
-        </div>
+      <div class='wait' v-if="content===''">
+        <WaitCtx></WaitCtx>
       </div>
       <article v-else class='ctx' v-html='content'></article>
     </div>
@@ -33,6 +27,7 @@ import Header from '@/components/Header.vue'
 import Aside from '@/components/Aside.vue'
 import Footer from '@/components/Footer.vue'
 import BackToTop from '@/components/BackToTop.vue'
+import WaitCtx from '@/components/WaitCtx.vue'
 import { myAjax } from '../../utils/syncajax'
 import marked from 'marked'
 import hljs from 'highlight.js'
@@ -51,7 +46,8 @@ export default {
     Header,
     Aside,
     Footer,
-    BackToTop
+    BackToTop,
+    WaitCtx
   },
   data () {
     return {
@@ -99,16 +95,6 @@ export default {
 </script>
 
 <style lang='less'>
-@keyframes stretchdelay {
-  0%, 40%, 100% {
-    transform: scaleY(0.4);
-    -webkit-transform: scaleY(0.4);
-  }  20% {
-    transform: scaleY(1.0);
-    -webkit-transform: scaleY(1.0);
-  }
-}
-
 @boxShadow:{
   box-shadow:0 0 2px #000;
 }
@@ -148,46 +134,12 @@ a {
     border-radius: 4px;
   }
 
-  & .wait-ctx {
+  & .wait {
     width:73%;
     height:500px;
     float: right;
     @media screen and (max-width: 900px) {
       width:100%;
-    }
-
-    & .spinner {
-      margin: 100px auto;
-      min-width: 50px;
-      height: 60px;
-      text-align: center;
-      font-size: 10px;
-
-      &>div {
-        background-color: black;
-        @boxShadow();
-        height: 100%;
-        width: 6px;
-        display: inline-block;
-        margin:0 4px;
-        animation: stretchdelay 1.2s infinite ease-in-out;
-      }
-
-      & .rect2 {
-        animation-delay: -1.1s;
-      }
-
-      & .rect3 {
-        animation-delay: -1.0s;
-      }
-
-      & .rect4 {
-        animation-delay: -0.9s;
-      }
-
-      & .rect5 {
-        animation-delay: -0.8s;
-      }
     }
   }
 

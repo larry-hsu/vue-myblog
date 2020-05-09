@@ -47,11 +47,8 @@ npm run serve
 ```shell
 /src/views目录下：
 ├── Home.vue  // 首页
-│ 
-├── Archives.vue  // 归档页
-│   
-├── Article  // 文章内容页
-│   
+├── Archives.vue  // 归档页   
+├── Article  // 文章内容页   
 └── admin/  // 后台文件夹
    ├── Sign.vue  // 登陆
    ├── EditData.vue  // 编辑个人资料
@@ -62,16 +59,12 @@ npm run serve
    └── Users.vue  // 个人中心
 
 /src/components目录下：
-├── BackToTop.vue  // 返回顶部组件
-│   
-├── Footer  // 页脚组件
-│   
-├── Header  // 页头组件
-│   
+├── BackToTop.vue  // 返回顶部组件 
+├── Footer  // 页脚组件 
+├── Header  // 页头组件 
 ├── Post.vue  // 文章组件
-│
 ├── PageIndex  // 文章分页组件
-│
+├── WaitCtx  // 等待内容时的动画组件
 └── admin/  // 后台用到的组件
    ├── AdminHeader  // 后台页头组件
    ├── AdminPost.vue  // 后台管理文章用到的组件

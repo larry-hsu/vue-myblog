@@ -55,7 +55,7 @@ router.get('/total', async (ctx, next) => {
 // archives page
 router.get('/archives', async (ctx, next) => {
   var article = new Article();
-  var res = await article.getAll();
+  var res = await article.getDateAndTitle();
 
   var archives = [];
   for (let i=0; i<res.length; i++) {

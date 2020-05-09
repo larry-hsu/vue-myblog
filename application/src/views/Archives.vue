@@ -5,7 +5,12 @@
       <aside>
         <Aside v-bind='transmit'></Aside>
       </aside>
-      <article>
+
+      <div class='wait' v-if='items.length===0'>
+        <WaitCtx></WaitCtx>
+      </div>
+
+      <article v-else>
         <div class='wrap'>
           <div class='abs'>Um..! {{ totalNum }} posts in total. Keep on posting.</div>
           <template v-for='(year, index) in years'>
@@ -39,6 +44,7 @@ import Header from '@/components/Header.vue'
 import Aside from '@/components/Aside.vue'
 import Footer from '@/components/Footer.vue'
 import BackToTop from '@/components/BackToTop.vue'
+import WaitCtx from '@/components/WaitCtx.vue'
 import { myAjax } from '../../utils/syncajax'
 
 export default {
@@ -47,7 +53,8 @@ export default {
     Header,
     Aside,
     Footer,
-    BackToTop
+    BackToTop,
+    WaitCtx
   },
   data () {
     return {
@@ -77,7 +84,7 @@ export default {
         }
         setTimeout(() => {
           this.items.push(arr[i])
-        }, i * 50)
+        }, i * 34)
       }
       this.years = tmp
     },
@@ -140,6 +147,15 @@ export default {
   & aside {
     width:26%;
     float: left;
+    @media screen and (max-width: 900px) {
+      width:100%;
+    }
+  }
+
+  & .wait {
+    width:73%;
+    height:500px;
+    float: right;
     @media screen and (max-width: 900px) {
       width:100%;
     }
