@@ -128,8 +128,9 @@ a {
   & p>code{
     word-break: break-all;
     font-family: Georgia, serif;
-    background: #F0F0F0;
-    padding: 0 6px;
+    background: #eaeaea;
+    color:#476582;
+    padding: 2px 6px;
     margin: 0 4px;
     border-radius: 4px;
   }

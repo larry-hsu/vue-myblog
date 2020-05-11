@@ -1,6 +1,6 @@
 <template>
   <ul class='ul' @click="backToTop">
-    <li @click='prevPage' :class='{disable: currPage === 1}'>上一页</li>
+    <li @click='prevPage' :class='{disable: currPage === 1}'> « </li>
     <template v-for='index in pageArr'>
       <li
         :class="{
@@ -12,7 +12,7 @@
         {{ index }}
       </li>
     </template>
-    <li @click='nextPage' :class='{disable: currPage === lastPage}'>下一页</li>
+    <li @click='nextPage' :class='{disable: currPage === lastPage}'> » </li>
   </ul>
 </template>
 
@@ -88,8 +88,8 @@ export default {
   justify-content: center;
   & li {
     display: flex;
-    min-width: 28px;
-    height:30px;
+    width: 28px;
+    height:32px;
     align-items: center;
     color:black;
     border-radius: 4px;
@@ -101,6 +101,12 @@ export default {
     box-shadow:0 0 2px #000;
     background: white;
     transition: background-color 0.3s;
+    @media screen and (max-width: 900px) {
+      font-size:14px;
+      height:24px;
+      width: 18px;
+    }
+
     &:hover{
       background: #e8e8e8;
     }
