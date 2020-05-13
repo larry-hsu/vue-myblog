@@ -21,6 +21,8 @@ export default {
       ctx = ctx.replace(/(<[^>]+>)|&nbsp;/g, '')
       ctx = ctx.replace(/(```[a-zA-Z]+|```|#+)/g, '')
       ctx = ctx.replace(/<|>/g, '')
+      ctx = ctx.replace(/!?\[.*\)/g, '')
+      ctx = ctx.replace(/\*/g, '')
       return ctx
     }
   },
