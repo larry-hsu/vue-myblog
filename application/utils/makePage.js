@@ -34,4 +34,4 @@ const makePage = function (cur, total, around = 2) {
   return pages
 }
 
-export { makePage }
+export default makePage

@@ -12,7 +12,7 @@
 
 <script>
 // @ is an alias to /src
-import { myAjax } from '../../../utils/syncajax'
+import myAjax from '../../../utils/syncajax'
 
 export default {
   name: 'AdminPost',

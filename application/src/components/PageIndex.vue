@@ -83,6 +83,7 @@ export default {
 
 <style lang='less' scoped>
 .ul{
+  margin: 20px 0;
   display: flex;
   list-style: none;
   justify-content: center;
@@ -111,11 +112,9 @@ export default {
       background: #e8e8e8;
     }
     &.ellipsis {
-        box-shadow:0 0 0 #000;
-        cursor: auto;
-        &:hover {
-          background: transparent;
-        }
+      box-shadow:0 0 0 #000;
+      cursor: auto;
+      background: transparent;
     }
     &.active {
       background: #e1e1e1;

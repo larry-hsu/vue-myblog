@@ -2,7 +2,18 @@
   <div>
     <AdminHeader :lisInfo='lisInfo' :right='rightInfo'></AdminHeader>
     <section>
-      <div class='post-number'> {{posts.length}} 篇文章</div>
+      <div class='post-head'>
+        <div class='post-number'> {{posts.length}} 篇文章</div>
+        <div class='post-search'>
+          <input type='text'
+            placeholder="search"
+            v-model='searchVal'
+            @keyup.delete='handleDelete'
+          >
+          <div class='search' @click='handleSearch'>搜索
+          </div>
+        </div>
+      </div>
       <template v-for='(post, index) in posts'>
         <AdminPost :post='post' :key='index'></AdminPost>
       </template>
@@ -15,7 +26,7 @@
 import AdminHeader from '@/components/admin/AdminHeader.vue'
 import AdminPost from '@/components/admin/AdminPost.vue'
 import axios from '../../../utils/axios'
-import { myAjax } from '../../../utils/syncajax'
+import myAjax from '../../../utils/syncajax'
 
 export default {
   name: 'Users',
@@ -30,10 +41,9 @@ export default {
       ],
       rightInfo: ['/users/writepost', '写文章'],
       user: {},
-      posts: []
+      posts: [],
+      searchVal: ''
     }
-  },
-  computed: {
   },
   methods: {
     getUserInfo: async function () {
@@ -57,6 +67,7 @@ export default {
         // 也可以使用axios获取
         var res = await myAjax.get('/api/allposts')
         res = JSON.parse(res)
+        // console.log(res)
         this.posts = res
       } else {
         // 普通用户获取自己的文章
@@ -64,6 +75,23 @@ export default {
         var ress = await myAjax.post('/api/myposts', postData)
         ress = JSON.parse(ress)
         this.posts = ress
+      }
+    },
+    handleSearch () {
+      var arr = this.posts
+      var title = this.searchVal
+      var tmpArr = []
+      for (let i = 0; i < arr.length; i++) {
+        var flag = arr[i].articleName.indexOf(title)
+        if (flag !== -1) {
+          tmpArr.push(arr[i])
+        }
+      }
+      this.posts = tmpArr
+    },
+    handleDelete () {
+      if (this.searchVal === '') {
+        this.getPosts()
       }
     }
   },
@@ -78,11 +106,43 @@ section {
   width: 60%;
   margin:100px auto;
 
-  & .post-number {
-    font-size:20px;
-    height:50px;
-    line-height: 50px;
+  .post-head {
+    display: flex;
     border-bottom:1px dashed grey;
+    padding:10px 0;
+    justify-content: space-between;
+    & .post-number {
+      font-size:20px;
+    }
+
+    & .post-search {
+      font-size:20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border:1px solid grey;
+      overflow: hidden;
+      & input {
+        height:24px;
+        max-width:140px;
+        font-size:14px;
+        border:none;
+        outline:none;
+        background: transparent;
+      }
+      & .search {
+        padding: 4px 4px;
+        font-size:14px;
+        border-left:1px solid grey;
+        cursor:pointer;
+        user-select: none;
+        transition: all 0.3s;
+        &:hover {
+          background: black;
+          color:white;
+        }
+      }
+    }
   }
 }
 </style>

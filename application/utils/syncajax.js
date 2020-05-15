@@ -80,4 +80,4 @@ const myAjax = {
   }
 }
 
-export { myAjax }
+export default myAjax

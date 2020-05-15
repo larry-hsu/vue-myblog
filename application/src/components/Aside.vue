@@ -7,17 +7,17 @@
     <div class='nav'>
       <p
         :class="{on: currPath === '/'}"
-        @click='backToHome'>
+        @click.stop='backToHome'>
         Blog
       </p>
       <p
         :class="{on: currPath === '/archives'}"
-        @click='toArchives'>
+        @click.stop='toArchives'>
         Archives
       </p>
     </div>
 
-    <div class='summaryFirst'>
+    <div id='summary' class='summaryFirst'>
       <div class='my'> {{ perch1 }} </div>
       <div class='postNums'>
         {{ perch2 }}
@@ -39,38 +39,36 @@ export default {
       default: '0'
     }
   },
+  data () {
+    return {
+      currPath: ''
+    }
+  },
   computed: {
-    nav: function () {
-      return document.getElementsByClassName('nav')[0]
-    },
-    summary: function () {
-      return document.getElementsByClassName('summaryFirst')[0]
-    },
     width: function () {
-      return document.defaultView.getComputedStyle(this.nav).width
+      var nav = document.getElementsByClassName('nav')[0]
+      return document.defaultView.getComputedStyle(nav).width
     }
   },
   methods: {
     backToHome () {
       this.$router.push('/')
     },
-    toArchives () {
+    toArchives (e) {
       this.$router.push('/archives')
+      // window.location.href = 'www.larryhsu.com/archives'
     },
     handleScroll () {
-      var bottom = this.nav.getBoundingClientRect().bottom
+      var nav = document.getElementsByClassName('nav')[0]
+      var summary = document.getElementById('summary')
+      var bottom = nav.getBoundingClientRect().bottom
 
       if (bottom < 0) {
-        this.summary.className = 'fix'
-        this.summary.style.width = this.width
+        summary.className = 'fix'
+        summary.style.width = this.width
       } else {
-        this.summary.className = 'summaryFirst'
+        summary.className = 'summaryFirst'
       }
-    }
-  },
-  data () {
-    return {
-      currPath: ''
     }
   },
   mounted () {

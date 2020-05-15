@@ -15,7 +15,7 @@
 import AdminHeader from '@/components/admin/AdminHeader.vue'
 import AdminUser from '@/components/admin/AdminUser.vue'
 import axios from '../../../utils/axios'
-import { myAjax } from '../../../utils/syncajax'
+import myAjax from '../../../utils/syncajax'
 
 export default {
   name: 'User',

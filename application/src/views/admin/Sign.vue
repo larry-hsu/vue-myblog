@@ -27,7 +27,7 @@
 <script>
 // @ is an alias to /src
 import AdminHeader from '@/components/admin/AdminHeader.vue'
-import { myAjax } from '../../../utils/syncajax'
+import myAjax from '../../../utils/syncajax'
 import myCookie from '../../../utils/CookieUtil'
 
 export default {

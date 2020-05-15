@@ -25,15 +25,28 @@
         maxlength="30"
       >
       <div class='uploadMdFile'>
-        <span @click='handleUploadMdFile'>上传修改后的md文件</span>
-        文件名：<span> {{ oldFilename }} </span>
-        <label style='display:none'>
-          <input
-            ref='uploadMdFile'
-            type='file'
-            @change="getFile"
-          >
-        </label>
+        <div class='upload'>
+          <span @click='handleUploadMdFile'>上传修改后的md文件</span>
+          文件名：<span> {{ oldFilename }} </span>
+          <label style='display:none'>
+            <input
+              ref='uploadMdFile'
+              type='file'
+              @change="getFile"
+            >
+          </label>
+        </div>
+        <div class='category'>
+          类别：
+          <select v-model='oldCate'>
+            <option
+              v-for='(item, index) in category'
+              :key='index'
+            >
+              {{ item }}
+            </option>
+          </select>
+        </div>
       </div>
     </section>
   </div>
@@ -42,7 +55,7 @@
 <script>
 // @ is an alias to /src
 import AdminHeader from '@/components/admin/AdminHeader.vue'
-import { myAjax } from '../../../utils/syncajax'
+import myAjax from '../../../utils/syncajax'
 import axios from '../../../utils/axios'
 
 export default {
@@ -60,33 +73,40 @@ export default {
       oldTitle: '',
       newMdContent: '',
       admin: '',
-      author: ''
+      author: '',
+      oldCate: '',
+      category: []
     }
   },
   methods: {
-    getUserInfo: async function () {
+    async getUserInfo () {
       // 自己封装的axios会将token添加到http头信息中
       // 后面的操作都是基于获取到的用户的权限
       var res = await axios.get('/api/user/info')
       this.admin = res.admin
       this.getPostInfo()
     },
-    getPostInfo: async function () {
+    async getPostInfo () {
       // 获取params中的id
-      var id = this.$route.params.postId
-      var postData = { id: id }
-      var url = '/api/article/postInfo'
-      var res = await myAjax.post(url, postData)
+      var res = await myAjax.post('/api/article/postInfo', {
+        id: this.$route.params.postId
+      })
       res = JSON.parse(res)
       this.oldTitle = res.articleName
       this.oldFilename = this.oldTitle + '.md'
+      this.oldCate = res.category
+      // console.log(res.category)
       this.author = res.author
+
+      // 获取分类
+      var cate = await myAjax.get('/api/archives/category')
+      this.category = JSON.parse(cate)
     },
-    handleUploadMdFile: function () {
+    handleUploadMdFile () {
       this.$refs.uploadMdFile.click()
       this.hasEdit = 1
     },
-    getFile: function (e) {
+    getFile (e) {
       // 获取上传的md文件
       var fname = e.target.value
       if (!/\.md$/.test(fname)) {
@@ -105,10 +125,10 @@ export default {
         }
       }
     },
-    handleFocus: function () {
+    handleFocus () {
       this.hasEdit = 1
     },
-    handleSave: async function () {
+    async handleSave () {
       if (!this.oldTitle) {
         alert('you need to write something')
       } else if (this.admin === 3 && !this.author) {
@@ -118,7 +138,8 @@ export default {
           id: this.$route.params.postId,
           title: this.oldTitle,
           content: this.newMdContent,
-          author: this.author
+          author: this.author,
+          category: this.oldCate
         }
 
         var res = await myAjax.post('/api/article/updatePost', postData)
@@ -190,16 +211,25 @@ section {
 
   & .uploadMdFile {
     color:grey;
+    display:flex;
+    justify-content: space-between;
+    align-items: center;
+    & .upload {
+      & span:nth-child(1) {
+        display: inline-block;
+        border-bottom: 1px solid grey;
+        @pointer();
+        margin-right:20px;
+      }
 
-    & span:nth-child(1) {
-      display: inline-block;
-      border-bottom: 1px solid grey;
-      @pointer();
-      margin-right:20px;
+      & span:nth-child(2) {
+        font-size:14px;
+      }
     }
 
-    & span:nth-child(2) {
-      font-size:14px;
+    & .category {
+      min-width:80px;
+      outline:none;
     }
   }
 

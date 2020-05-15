@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Home from '../views/Home.vue'
+import Archives from '../views/Archives.vue'
 import myCookie from '../../utils/CookieUtil'
 
 const routes = [
@@ -17,10 +18,8 @@ const routes = [
     meta: {
       title: 'Blog Archives'
     },
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/Archives.vue')
+    // 这里如果使用路由懒加载，在线上使用的时候会加载很慢。
+    component: Archives
   },
   {
     path: '/articles/:id',

@@ -25,15 +25,26 @@
         maxlength="30"
       >
       <div class='uploadMdFile'>
-        <span @click='handleUploadMdFile'>上传md文件</span>
-        文件名：<span> {{ filename }} </span>
-        <label style='display:none'>
-          <input
-            ref='uploadMdFile'
-            type='file'
-            @change="getFile"
-          >
-        </label>
+        <div class='upload'>
+          <span @click='handleUploadMdFile'>上传md文件</span>
+          文件名：<span> {{ filename }} </span>
+          <label style='display:none'>
+            <input
+              ref='uploadMdFile'
+              type='file'
+              @change="getFile"
+            >
+          </label>
+        </div>
+        <div class='category'>
+          类别：
+          <select @change='handleSelect'>
+            <option>choose</option>
+            <option v-for='(item, index) in category' :key='index'>
+              {{ item }}
+            </option>
+          </select>
+        </div>
       </div>
     </section>
   </div>
@@ -42,7 +53,7 @@
 <script>
 // @ is an alias to /src
 import AdminHeader from '@/components/admin/AdminHeader.vue'
-import { myAjax } from '../../../utils/syncajax'
+import myAjax from '../../../utils/syncajax'
 import axios from '../../../utils/axios'
 
 export default {
@@ -60,11 +71,13 @@ export default {
       title: '',
       userId: '',
       author: '',
-      admin: ''
+      admin: '',
+      category: [],
+      selCate: 'choose'
     }
   },
   methods: {
-    getUserInfo: async function () {
+    async getUserInfo () {
       // 自己封装的axios会将token添加到http头信息中
       // 后面的操作都是基于获取到的用户的权限
       var res = await axios.get('/api/user/info')
@@ -73,8 +86,11 @@ export default {
       var postData = { id: this.userId }
       var nickname = await myAjax.post('/api/user/nickname', postData)
       this.author = nickname
+      // 获取分类
+      var cate = await myAjax.get('/api/archives/category')
+      this.category = JSON.parse(cate)
     },
-    handleUploadMdFile: function () {
+    handleUploadMdFile () {
       this.$refs.uploadMdFile.click()
     },
     getFile: function (e) {
@@ -97,6 +113,9 @@ export default {
     handleFocus: function () {
       this.hasEdit = 1
     },
+    handleSelect (e) {
+      this.selCate = e.target.value
+    },
     handleSave: async function () {
       if (!this.title) {
         alert('you need to write somethings')
@@ -104,12 +123,15 @@ export default {
         alert('need author!')
       } else if (!this.mdContent) {
         alert('you need to upload a markdown file')
+      } else if (this.selCate === 'choose') {
+        alert('you need to choose a categroy')
       } else {
         var postData = {
           id: this.userId,
           title: this.title,
           content: this.mdContent,
-          author: this.author
+          author: this.author,
+          category: this.selCate
         }
 
         var res = await myAjax.post('/api/article/savepost', postData)
@@ -179,16 +201,28 @@ section {
 
   & .uploadMdFile {
     color:grey;
+    display:flex;
+    justify-content: space-between;
+    align-items: center;
 
-    & span:nth-child(1) {
-      display: inline-block;
-      border-bottom: 1px solid grey;
-      @pointer();
-      margin-right:20px;
+    & .upload {
+      & span:nth-child(1) {
+        display: inline-block;
+        border-bottom: 1px solid grey;
+        @pointer();
+        margin-right:20px;
+      }
+
+      & span:nth-child(2) {
+        font-size:14px;
+      }
     }
 
-    & span:nth-child(2) {
-      font-size:14px;
+    & .category {
+      & select {
+        min-width: 80px;
+        outline:none;
+      }
     }
   }
 

@@ -35,8 +35,8 @@ import PageIndex from '@/components/PageIndex.vue'
 import Footer from '@/components/Footer.vue'
 import BackToTop from '@/components/BackToTop.vue'
 import WaitCtx from '@/components/WaitCtx.vue'
-import { myAjax } from '../../utils/syncajax'
-import { makePage } from '../../utils/makePage.js'
+import myAjax from '../../utils/syncajax'
+import makePage from '../../utils/makePage.js'
 
 export default {
   name: 'Home',
@@ -53,6 +53,7 @@ export default {
     return {
       pageArr: [],
       posts: [],
+      eachPageNumber: 5,
       transmit: {
         perch1: 'Total'
       }
@@ -66,11 +67,15 @@ export default {
   },
   methods: {
     async getInfo () {
-      var res = await myAjax.get('/api/artCnt')
-      var postUrl = `/api/pages/${this.currPage}`
-      var posts = await myAjax.get(postUrl)
-      this.pageArr = makePage(this.currPage, res)
+      var postData = {
+        pages: this.currPage,
+        eachPageNumber: this.eachPageNumber
+      }
+
+      var posts = await myAjax.post('/api/pages', postData)
       var totalNum = await myAjax.get('/api/total')
+      var liNum = Math.ceil(totalNum / this.eachPageNumber)
+      this.pageArr = makePage(this.currPage, liNum)
       this.transmit.perch2 = totalNum + ' posts '
       this.fillPosts(JSON.parse(posts))
     },
